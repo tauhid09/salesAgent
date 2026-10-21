@@ -1,58 +1,78 @@
-# Salesforce DX Project
+# Sales Agent
 
-Salesforce DX is a development approach that brings source-driven development, team collaboration, and continuous integration to the Salesforce Platform. Instead of working directly in an org through a web browser, you work with metadata as source files in a local DX project, track changes in version control, and deploy through automated processes.
+Sales Agent is a Salesforce Agentforce employee agent that helps internal users with common sales work. It summarizes supplied text, looks up and summarizes leads and opportunities, and reports on the overall lead or sales process. The agent runs in the logged-in user's context and is intended to use only records that user is allowed to access.
 
-This project template gets you started with the tools and structure you need to build Salesforce applications using source control, scratch orgs, and the Salesforce CLI.
+## Capabilities
+
+- **Text summaries:** Summarize supplied text, notes, emails, or sales-process descriptions into three short bullets.
+- **Lead summaries:** Find an unconverted lead by name or company, then summarize its status, engagement, and a recommended next step. The summary can include up to five recent tasks.
+- **Opportunity summaries:** Find an opportunity by name, then summarize its stage, risks, and a recommended next step. The summary can include up to five recent tasks.
+- **Process summaries:** Summarize either the lead process or the sales (opportunity) process, including stage/status volumes and recommended next steps. Sales summaries include stage amounts and overdue open opportunities; lead summaries include leads created in the last 30 days. Ask for either process, or request both.
+
+Record summaries use the most recently modified matching record. Process data and record queries run with the current user's access where supported by the Apex queries.
+
+## Project structure
+
+- `force-app/main/default/aiAgents/` — Agentforce agent metadata.
+- `force-app/main/default/aiAuthoringBundles/` — Agent instructions, routing, and user-facing action definitions.
+- `force-app/main/default/aiAgentDefinitionVersions/` — Versioned agent definition, graph, and local action schemas.
+- `force-app/main/default/classes/` — Apex invocable actions for text, lead, opportunity, and process summaries.
+- `config/project-scratch-def.json` — Scratch org definition.
+- `scripts/` — Sample Apex and SOQL scripts.
+- `sfdx-project.json` — Salesforce DX package and API configuration.
 
 ## Prerequisites
 
-Before you start, make sure you have:
+- [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli)
+- A Salesforce org authorized for development and deployment; scratch org creation also requires a Dev Hub.
+- An org that supports the Agentforce metadata and AI model features used by this project, with the appropriate user permissions and model access enabled.
+- Node.js and npm, if you want to run the project's lint and unit-test scripts.
 
-- **Salesforce CLI** - Download from [developer.salesforce.com/tools/salesforcecli](https://developer.salesforce.com/tools/salesforcecli). See [Install Salesforce CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) for details.
-- **VS Code with Salesforce Extension Pack** - See [Installation Instructions](https://developer.salesforce.com/docs/platform/sfvscode-extensions/guide/install.html) for details. Includes the Agentforce Vibes extension.
-- **A development org** - Sign up for a free Developer Edition org [here](https://developer.salesforce.com/signup).
-- **Dev Hub enabled** (optional, required to create scratch orgs) - You can enable Dev Hub in your development org under Setup > Dev Hub.  See [Provide Developers Access to Salesforce DX Tools](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_setup_dx_tools.htm).
+## Authorize an org
 
-## Project Structure
+Log in to a development org and assign it an alias:
 
-Your DX project follows this structure:
+```bash
+sf org login web --alias sales-agent-dev --instance-url https://login.salesforce.com
+```
 
-- **`force-app/main/default/`** - Your metadata source files live in this default package directory. You can configure additional package directories in the `sfdx-project.json` file.
-- **`config/`** - Scratch org definitions and project settings
-- **`scripts/`** - Automation scripts for common tasks
-- **`sfdx-project.json`** - Project manifest that defines package directories, namespace, API version, and other project-level settings
+For a scratch org, first authorize a Dev Hub, then create the org from the included definition:
 
-See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm).
+```bash
+sf org login web --set-default-dev-hub --alias sales-agent-hub
+sf org create scratch --definition-file config/project-scratch-def.json --alias sales-agent-scratch --target-dev-hub sales-agent-hub --set-default
+```
 
-## Get Started
+## Deploy
 
-Ready to start developing? The [Get Started with Salesforce DX](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_get_started_dx.htm) guide walks you through your first project, from creating a scratch org to creating a simple Apex class or LWC to deploying your code to a sandbox.
+Deploy the Salesforce metadata to the authorized org:
 
-## Common Salesforce CLI Commands
+```bash
+sf project deploy start --source-dir force-app --target-org sales-agent-dev
+```
 
-Here are common CLI commands that you'll use the most:
+Replace `sales-agent-dev` with the alias of your target org (for example, `sales-agent-scratch`). Once deployment and org-side Agentforce setup are complete, open the org:
 
-- `sf org login web`: Authorize an org
-- `sf org open`: Open your org in a browser
-- `sf org create scratch`: Create a scratch org
-- `sf project deploy start`: Deploy metadata to your org
-- `sf project retrieve start`: Retrieve metadata from your org
-- `sf template generate <artifact>`: Scaffold new components, such as Apex classes and triggers, LWC components, Lightning apps, and more
-- `sf apex <command>`: Run Apex tests, run anonymous Apex blocks, and view logs
-- `sf data <command>`: Work with test data
-- `sf alias <command>`: Manage org aliases
-- `sf config <command>`: Configure CLI settings
+```bash
+sf org open --target-org sales-agent-dev
+```
 
-## Use Agentforce Vibes to Build Lightning Apps
+The agent's Apex actions call Salesforce's Models API. Confirm that the AI models referenced by the Apex classes are available in the target org and that the deployed agent and users have the required access before testing summaries.
 
-Transform your ideas into custom Lightning apps that extend CRM workflows directly in Lightning Experience. Through natural conversations with Agentforce Vibes, implement custom objects and fields, complex business logic, and dynamic UI components. See [Build a Lightning App Using Agentforce Vibes](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/lexapp-overview.html).
+## Development checks
 
-## Additional Resources
+Install the Node development dependencies, then run the checks provided by the project:
 
-- [Agentforce Vibes Developer Guide](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/einstein-overview.html)
-- [Salesforce CLI Installation Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
+```bash
+npm install
+npm run lint
+npm test
+```
+
+`npm test` runs the LWC Jest unit-test script. The Apex classes are in `force-app/main/default/classes/`; use Salesforce CLI and an appropriately configured org to validate Apex changes.
+
+## Resources
+
+- [Salesforce CLI documentation](https://developer.salesforce.com/docs/atlas.en-us/sfdx_cli_reference.meta/sfdx_cli_reference/)
 - [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/)
-- [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
-- [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-
+- [Salesforce VS Code Extensions](https://developer.salesforce.com/tools/vscode/)
