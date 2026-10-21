@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AiAgentDefinitionVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <billingMode>ActionBased</billingMode>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <copilotSecondaryLanguages>hi,en_GB</copilotSecondaryLanguages>
+    <genAiPlannerName>Sales_Agent_v1</genAiPlannerName>
+    <isScriptCompatibleAgent>true</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <planner>
+        <fullName>Sales_Agent_v1</fullName>
+        <agentGraphRef>20Zfj00000AlpCb</agentGraphRef>
+        <agentScript>20Zfj00000AjtYr</agentScript>
+        <description>Automate common business tasks and assist employees in their flow of work. Summarizes text and gives status updates on opportunities and leads.</description>
+        <localTopicLinks>
+            <genAiPluginName>agent_router</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>agent_services</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>ambiguous_question</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>lead_summary</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>off_topic</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>opportunity_summary</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>process_summary</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>summarizer</genAiPluginName>
+        </localTopicLinks>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Welcome the employee and determine the appropriate subagent based on user input</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.
+
+{{state.AgentScriptInternal_agent_instructions}}</description>
+                <developerName>instruction0_179fj000004W7XA</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7XA</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>agent_router</localDeveloperName>
+            <masterLabel>Agent Router</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Use when the user greets the agent, or asks what the agent can do, its services, features, capabilities, or how it can help</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7XC</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7XC</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>agent_services</localDeveloperName>
+            <masterLabel>Agent Services</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Redirect conversation to relevant topics when user request is too ambiguous</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7XE</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7XE</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>ambiguous_question</localDeveloperName>
+            <masterLabel>Ambiguous Question</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Use when the user asks for the status, summary or next step of a specific lead or prospect, identified by name or company</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7X9</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7X9</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localActionLinks>
+                <functionName>SummarizeLead</functionName>
+            </localActionLinks>
+            <localActions>
+                <description>Finds a lead by name or company and returns a short status summary</description>
+                <invocationTarget>LeadSummarizer</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+                <localDeveloperName>SummarizeLead</localDeveloperName>
+                <masterLabel>SummarizeLead</masterLabel>
+            </localActions>
+            <localDeveloperName>lead_summary</localDeveloperName>
+            <masterLabel>Lead Summary</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Redirect conversation to relevant topics when user request goes off-topic, such as general knowledge, jokes or unrelated requests</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7X7</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7X7</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>off_topic</localDeveloperName>
+            <masterLabel>Off Topic</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Use when the user asks for the status, summary, risks or next step of a specific opportunity or deal, identified by name</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7X8</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7X8</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localActionLinks>
+                <functionName>SummarizeOpportunity</functionName>
+            </localActionLinks>
+            <localActions>
+                <description>Finds an opportunity by name and returns a short status summary</description>
+                <invocationTarget>OpportunitySummarizer</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+                <localDeveloperName>SummarizeOpportunity</localDeveloperName>
+                <masterLabel>SummarizeOpportunity</masterLabel>
+            </localActions>
+            <localDeveloperName>opportunity_summary</localDeveloperName>
+            <masterLabel>Opportunity Summary</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Use when the user asks for an overview or summary of the sales process, lead process, pipeline or funnel as a whole, not a specific record</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7XB</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7XB</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localActionLinks>
+                <functionName>SummarizeProcess</functionName>
+            </localActionLinks>
+            <localActions>
+                <description>Summarizes the live sales or lead process with stage volumes, bottlenecks and a next step</description>
+                <invocationTarget>ProcessSummarizer</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+                <localDeveloperName>SummarizeProcess</localDeveloperName>
+                <masterLabel>SummarizeProcess</masterLabel>
+            </localActions>
+            <localDeveloperName>process_summary</localDeveloperName>
+            <masterLabel>Process Summary</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Use this when the user asks to summarize, shorten, or give key points or bullet points of any text, document, or sales process description</description>
+            <genAiPluginInstructions>
+                <description>You are an AI Agent that assists internal employees with their sales work. You act on behalf of the logged-in user and only work with data that user is allowed to access.</description>
+                <developerName>instruction0_179fj000004W7XD</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179fj000004W7XD</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localActionLinks>
+                <functionName>ClaudeSummarize</functionName>
+            </localActionLinks>
+            <localActions>
+                <description>Summarizes the given text in 3 short bullets</description>
+                <invocationTarget>ClaudeSummarizer</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+                <localDeveloperName>ClaudeSummarize</localDeveloperName>
+                <masterLabel>ClaudeSummarize</masterLabel>
+            </localActions>
+            <localDeveloperName>summarizer</localDeveloperName>
+            <masterLabel>Summarizer</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <masterLabel>Sales Agent</masterLabel>
+        <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+    </planner>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <status>Active</status>
+    <stopRecPrompts>false</stopRecPrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+    <version>1</version>
+    <welcomeMessage>Hi, I&apos;m your Sales Assistant. I can summarize text and give you quick updates on opportunities and leads. How can I help?</welcomeMessage>
+</AiAgentDefinitionVersion>
