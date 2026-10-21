@@ -9,7 +9,7 @@
 Sales Agent summarizes supplied text, looks up and summarizes leads and opportunities, and reports on the overall lead or sales process. It runs in the logged-in user's context and is intended to use only records that user is allowed to access.
 
 > [!NOTE]
-> Lead, opportunity, and lead/sales process summaries use **Anthropic Claude Sonnet 4.5** through Salesforce's Models API. The standalone free-text summarization action currently uses **Claude Sonnet 4.6**.
+> Lead, opportunity, and lead/sales process summaries use **Anthropic Claude Sonnet 4.5** through Salesforce's Models API. The standalone free-text summarization action currently uses **Claude Sonnet 4.5**.
 
 ## Table of contents
 
